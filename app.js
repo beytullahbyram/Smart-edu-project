@@ -3,6 +3,7 @@ const mongoose=require('mongoose');
 const router = require('./routes/pageRoute');
 const courseRoute=require('./routes/courseRoute');
 const categoryRoute=require('./routes/categoryRoute');
+const userRoute=require('./routes/userRoute');
 
 const app = express();
 const port = 3000;
@@ -25,7 +26,7 @@ app.use(express.urlencoded({ extended: true })) // for parsing application/x-www
 app.use('/',router)
 app.use('/courses',courseRoute)
 app.use('/categories',categoryRoute);
-
+app.use('/users',userRoute)
 
 app.listen(port, () => {
     console.log(`Uygulama ${port} portunda başlatıldı`);
