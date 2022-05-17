@@ -1,6 +1,7 @@
 //database ile sayfa arasındaki bağlantıyı sağlar
 
 exports.getIndexPage = (req, res) => {
+    console.log(req.session.userıd);
     res.render('index', {
         page_name: "index"
     })
