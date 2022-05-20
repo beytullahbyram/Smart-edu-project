@@ -3,12 +3,16 @@ const Category = require('../models/Category');
 
 exports.createCourse = async (req, res) => {
     try {
-        const course = await Course.create(req.body);
 
-        res.status(201).json({
-            status: 'basarılı',
-            course,
-        })
+        const course = await Course.create({
+            name:req.body.name,
+            desctription:req.body.name,
+            category:req.body._id,
+            user:req.session.userıd
+        });
+
+
+        res.status(201).redirect('/courses');
     } catch (error) {
         res.status(400).json({
             status: 'hatalı',
@@ -21,14 +25,18 @@ exports.createCourse = async (req, res) => {
 
 exports.getAllCourses = async (req, res) => {
     try {
-        const categorySlug=req.query.categories
-                    //async
-        const category = await Category.findOne({slug:categorySlug})
-        let filter={};
+        const categorySlug = req.query.categories
+        //async
+        const category = await Category.findOne({
+            slug: categorySlug
+        })
+        let filter = {};
 
-        if(categorySlug){
+        if (categorySlug) {
             //kurs modelincedki kategori
-            filter={category:category._id}
+            filter = {
+                category: category._id
+            }
         }
 
         const courses = await Course.find(filter);
@@ -53,7 +61,7 @@ exports.getCourse = async (req, res) => {
     try {
         const course = await Course.findOne({
             slug: req.params.slug
-        });
+        }).populate('user')//user modelindeki bilgileri aldık
 
         res.status(200).render('course', {
             course,

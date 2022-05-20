@@ -17,6 +17,11 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    role:{
+        type:String,
+        enum:['teacher','student','admin'],
+        default:'student'
+    }
 })
 //password veri tabanına gitmeden önce ara katman oluşturup veri tabanına yazılmadan önce şifreliyoruz
 UserSchema.pre('save',function(next){
@@ -30,6 +35,6 @@ UserSchema.pre('save',function(next){
 
 
 //model çevirme işlemi
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model('User', UserSchema); //'User' kelimesi ile diğer modellerden referans alabiliyoruz
 
 module.exports = User;

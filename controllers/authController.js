@@ -1,13 +1,14 @@
 const User = require('../models/User');
+const Category = require('../models/Category');
+
+
 const bcrypt = require('bcrypt');
+const Course = require('../models/Course');
 
 exports.createUser = async (req, res) => {
     try {
         const user = await User.create(req.body);
-        res.status(201).json({
-            status: 'basarılı',
-            user,
-        })
+        res.status(201).redirect('/login')
     } catch (error) {
         res.status(400).json({
             status: 'hatalı',
@@ -61,15 +62,18 @@ exports.getDashboardPage = async (req, res) => {
     const user = await User.findOne({
         _id: req.session.userıd
     })
-    //veri tabanındaki _id si sessiiondaki idye eşit olanı dashboard ttemplatine gönder
-    // if (user) {
-    //     console.log('kullanııc var ');
-    // } else {
-    //     console.log('kullanııc yok ');
-    //     res.redirect('/login')
-    // }
+
+    const courseCategory=await Category.find();
+    const course=await Course.find({
+        user:req.session.userıd
+    });
+    console.log(courseCategory[0]._id);
+    console.log(course);
+
     res.render('dashboard', {
         page_name: "dashboard",
-        user
+        user,
+        courseCategory,
+        course
     })
 }
