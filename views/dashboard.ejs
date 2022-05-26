@@ -39,11 +39,14 @@
 							</div>
 							<div class="course-br">
 								<div class="course-title">
-									<h2><a href="course-single.html" title=""><%=user.courses[i].name %>></a></h2>
+									<h2><a href="course-single.html" title=""><%=user.courses[i].name %></a></h2>
 								</div>
 								<div class="course-desc">
-									<p>Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets
-										geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit.... </p>
+									<p> <%=user.courses[i].desctription %></p>
+									<form method="POST" action="/courses/release">
+										<input type="hidden" name="course_id" value="<%= user.courses[i]._id %>">
+										<button class="btn btn-lg btn-danger text-white"><span>RELEASE</span></button>
+									  </form>
 								</div>
 							</div>
 						</div>
