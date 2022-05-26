@@ -61,14 +61,14 @@ exports.logoutUser = (req, res) => {
 exports.getDashboardPage = async (req, res) => {
     const user = await User.findOne({
         _id: req.session.userıd
-    })
+    }).populate('courses')
 
     const courseCategory=await Category.find();
     const course=await Course.find({
         user:req.session.userıd
     });
-    console.log(courseCategory[0]._id);
-    console.log(course);
+    // console.log(courseCategory[0]._id);
+    // console.log(course);
 
     res.render('dashboard', {
         page_name: "dashboard",

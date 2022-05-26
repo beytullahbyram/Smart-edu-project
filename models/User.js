@@ -21,7 +21,11 @@ const UserSchema = new Schema({
         type:String,
         enum:['teacher','student','admin'],
         default:'student'
-    }
+    },
+    courses:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Course'
+      }]
 })
 //password veri tabanına gitmeden önce ara katman oluşturup veri tabanına yazılmadan önce şifreliyoruz
 UserSchema.pre('save',function(next){

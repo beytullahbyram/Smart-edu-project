@@ -18,9 +18,17 @@
 					</div>
 					<div class="post-content">
 						<div class="post-date">
+
+							<form method="POST" action="/courses/enroll">
+								<!-- hangi kursa kayıt olduğunu göstermek için value kısmmında course id'yi gönderiyoruz
+									hangi öğrencinin kayıt olduğunu görmek içinde sessiondaki userıd'den buluyoruz -->
+								<input type="hidden" name="course_id" value="<%= course._id %>">
+								<button class="btn btn-lg btn-warning text-white"><span>ENROLL</span></button>
+							  </form>
+							  
 							<span class="day"><%=course.createdAt.getDate() %></span>
-							<span class="month"><%=course.createdAt.toLocaleString('default', {month: 'long'});%>
-							</span>
+							<span class="month"><%=course.createdAt.toLocaleString('default', {month: 'long'});%></span>
+
 						</div>
 						<div class="meta-info-blog">
 							<span><i class="fa fa-calendar"></i> <a
