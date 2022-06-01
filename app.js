@@ -20,10 +20,9 @@ mongoose.connect('mongodb://localhost/smart-edu-db').then(()=>{
 //temlate-şablon engine
 app.set("view engine", "ejs")
 
-global.userIN = null;
+ 
 
 
-//ara katman middleware
 //statik dosyalar public klasorunde
 app.use(express.static("public"))
 app.use(express.json()) // for parsing application/json
@@ -34,7 +33,7 @@ app.use(session({
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smart-edu-db' }) //oturumu kayıt altına aldı// mongoose de session olusturuldu
   }))
-//router - yönlendirmeler
+//router
 app.use('*',(req,res,next) => {
     userIN = req.session.userıd;
     next();

@@ -27,38 +27,41 @@ exports.createCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
     try {
         const categorySlug = req.query.categories
-        const category = await Category.findOne({
+        const query=req.query.search
+
+        const category = Category.findOne({
             slug: categorySlug
         })
-        const query=req.query.search
         let filter = {};
-
         if (categorySlug) {
             //kurs modelincedki kategori
             filter = {
                 category: category._id
             }
         }
-
+        
         if(query){
             filter={name:query}
         }
-        if(!query && !categorySlug){
-            filter.name="",
-            filter.categories=null
-        }
 
-        const courses = await Course.find({
+        if(!query && !categorySlug) {
+            filter.name = "",
+            filter.category = null
+          }
+
+          const courses = await Course.find({
             $or:[
-                {name:{$regex:'.*'+filter.name +'.*', $options:'i' }},
-                {category:filter.category}
-            ]
-        });
+                {name: { $regex: '.*' + filter.name + '.*', $options: 'i'}},
+                //{category: filter.category}
+
+              ]
+          }).sort('-createdAt').populate('user');
         const categories = await Category.find();
         res.status(200).render('courses', {
             courses,
             categories,
-            page_name: "courses"
+            page_name: "courses",
+
 
         })
     } catch (error) {
@@ -77,11 +80,13 @@ exports.getCourse = async (req, res) => {
         const course = await Course.findOne({
             slug: req.params.slug
         }).populate('user') //user modelindeki bilgileri aldık
+        const categories = await Category.find();
 
         res.status(200).render('course', {
             course,
             page_name: "courses",
-            user
+            user,
+            categories
         })
 
     } catch (error) {
@@ -113,9 +118,9 @@ exports.getRelease = async (req, res) => {
     try {
         const user = await User.findById(req.session.userıd)
         await user.courses.pull({_id: req.body.course_id}) //userın kurslar alanına yeni bir kurs ekleniyor. req ile ejsdeki kurs idyi alarak.
-        await user.save() //buralarda await yazmamızın sebebi bu işlemlerin sıralı bir şekilde olmasını istediğimiz için.
+        await user.save() 
        
-     res.status(200).redirect('/users/dashboard')
+        res.status(200).redirect('/users/dashboard')
 
     } catch (error) {
         res.status(400).json({
