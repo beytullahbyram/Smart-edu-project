@@ -66,8 +66,8 @@ exports.getContactPage = (req, res) => {
   });
 console.log("-------");
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <viviane.howe56@ethereal.email>', 
-    to: "viviane.howe56@ethereal.email", 
+    from: '"Fred Foo 👻" <email>', 
+    to: "email", 
     subject: "Hello ✔", 
     text: "Hello world?",
     html: outputMessage
