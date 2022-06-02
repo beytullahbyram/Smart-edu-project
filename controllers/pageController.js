@@ -60,16 +60,16 @@ exports.getContactPage = (req, res) => {
       host: 'smtp.ethereal.email',
       port: 587,
       auth: {
-          user: 'viviane.howe56@ethereal.email',
-          pass: 'A1Su1SH1D2jFKmdyYw'
+          user: 'email',
+          pass: 'passw'
       }
   });
 console.log("-------");
   let info = await transporter.sendMail({
-    from: '"Fred Foo 👻" <viviane.howe56@ethereal.email>', // sender address
-    to: "viviane.howe56@ethereal.email", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world?", // plain text body
+    from: '"Fred Foo 👻" <viviane.howe56@ethereal.email>', 
+    to: "viviane.howe56@ethereal.email", 
+    subject: "Hello ✔", 
+    text: "Hello world?",
     html: outputMessage
   });
   console.log("-------");
