@@ -12,13 +12,11 @@ exports.createCourse = async (req, res) => {
             user: req.session.userıd
         });
 
-
+        req.flash("success", `${course.name} kursu başarılı şekilde oluşturuldu`)
         res.status(201).redirect('/courses');
     } catch (error) {
-        res.status(400).json({
-            status: 'hatalı',
-            error,
-        })
+        req.flash("error", `${course.name} oluşturulamadı`)
+        res.status(400).redirect('/courses');
     }
 
 
@@ -56,6 +54,7 @@ exports.getAllCourses = async (req, res) => {
 
               ]
           }).sort('-createdAt').populate('user');
+        
         const categories = await Category.find();
         res.status(200).render('courses', {
             courses,

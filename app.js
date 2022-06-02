@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose=require('mongoose');
 const  session  =  require ( 'express-session' )
 const MongoStore = require('connect-mongo');
+const flash = require('connect-flash');
 
 const router = require('./routes/pageRoute');
 const courseRoute=require('./routes/courseRoute');
@@ -33,6 +34,13 @@ app.use(session({
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smart-edu-db' }) //oturumu kayıt altına aldı// mongoose de session olusturuldu
   }))
+app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.flashMessages=req.flash();
+    next();
+})
+
+
 //router
 app.use('*',(req,res,next) => {
     userIN = req.session.userıd;
