@@ -295,6 +295,7 @@
 				<div class="row mt-5">
 					<table class="table">
 						<thead>
+							<H2>USERS</H2>
 						  <tr>
 							<th scope="col">ID#</th>
 							<th scope="col">Email</th>
@@ -318,8 +319,73 @@
 
 				</div><!-- end row -->
 
+				<div class="row mt-5">
+					<table class="table">
+						<thead>
+							<H2>CATEGORIES</H2>
+						  <tr>
+							<th scope="col">ID#</th>
+							<th scope="col">Name</th>
+							<th scope="col">Add</th>
+							<th scope="col">Delete</th>
+						  </tr>
+						</thead>
+						<% for (let i=0; i< courseCategory.length; i++) { %>
+							<tbody>
+								<tr>
+									<th scope="row"><%=courseCategory[i]._id %></th>
+									<td><%=courseCategory[i].name %></td>
+									<td><button class="btn btn-lg btn-warning rounded-0 text-white" href="#"
+										data-toggle="modal" data-target="#addCategory"><span>
+										  ADD</span></button></td>
+									  <td><a href="/categories/<%= courseCategory[i]._id %>?_method=DELETE" 
+										onclick="return confirm('ARE YOU SURE')"
+										class="btn btn-danger rounded-0 text-white"><span>DELETE</span></a></td>
+									  </tr>
+								</tr>
+							</tbody>
+							
+							<% } %>
+
+					  </table>
+
+				</div><!-- end row -->
+
 			</div><!-- end container -->
 		</div><!-- end section -->
+		<div class="modal fade" id="addCategory" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-body customer-box">
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="tab-pane active" id="Login">
+							<form method="POST" action="/categories" class="form-horizontal">
+								<div class="form-group">
+									<div class="col-sm-12">
+										<input type="text" name="name" class="form-control"
+											placeholder="Category Name">
+									</div>
+								</div>	
+			<div class="row">
+				<div class="col-sm-10">
+					<button type="submit" class="btn btn-light btn-radius btn-brd grd1">
+						Submit
+					</button>
+					<button type="submit" class="btn btn-light btn-radius btn-brd grd1"
+						data-dismiss="modal" aria-hidden="true">
+						Cancel
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 	<% } %>
 
 <% } %>

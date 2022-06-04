@@ -66,8 +66,6 @@ exports.getAllCourses = async (req, res) => {
             courses,
             categories,
             page_name: "courses",
-
-
         })
     } catch (error) {
         res.status(400).json({
@@ -161,7 +159,9 @@ exports.getDelete = async (req, res) => {
 
 exports.getUpdate = async (req, res) => {
     try {
-        const course = await Course.findOne({slug:req.params.slug});
+        const course = await Course.findOne({
+            slug: req.params.slug
+        });
         course.name = req.body.name;
         course.desctription = req.body.desctription;
         course.category = req.body.category;

@@ -1,10 +1,21 @@
 const nodemailer = require("nodemailer");
-
+const Course = require('../models/Course');
+const Category = require('../models/Category');
+const User = require('../models/User');
 //database ile sayfa arasındaki bağlantıyı sağlar
-exports.getIndexPage = (req, res) => {
+exports.getIndexPage = async(req, res) => {
+  const courses=await Course.find().sort('-CreatedAt').limit(2)
+  const totalCourses=await Course.find().countDocuments();
+  const totalSudent=await User.countDocuments({role:'Student'});
+  const totalTeacher=await User.countDocuments({role:'teacher'});
+
   console.log(req.session.userıd);
   res.render('index', {
-    page_name: "index"
+    page_name: "index",
+    courses,
+    totalCourses,
+    totalSudent,
+    totalTeacher,
   })
 }
 
