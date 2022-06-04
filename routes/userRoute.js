@@ -26,5 +26,5 @@ router.route('/signup').post(
 router.route('/login').post(authController.loginUser) //localhost:3000/users/lgin
 router.route('/logout').get(authController.logoutUser) //localhost:3000/users/logout
 router.route('/dashboard').get(authMiddleware,authController.getDashboardPage) //localhost:3000/users/dashboard
-
+router.route('/:_id').delete(authController.getUserDelete)
 module.exports = router

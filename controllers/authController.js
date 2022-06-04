@@ -13,7 +13,7 @@ exports.createUser = async (req, res) => {
         res.status(201).redirect('/login')
     } catch (error) {
         const errors = validationResult(req);
-        for (let i = 0;i <errors.array().length; i++){
+        for (let i = 0; i < errors.array().length; i++) {
             req.flash("error", `${errors.array()[i].msg}`)
         }
         res.status(400).redirect('/register')
@@ -39,12 +39,12 @@ exports.loginUser = (req, res) => {
                     if (same) {
                         req.session.userıd = user._id
                         res.status(200).redirect('/users/dashboard') // giriş yaptıktan sonra   ana sayfaya yönlendir 
-                    }else{
+                    } else {
                         req.flash("error", `your password is not correct`)
                         res.status(400).redirect('/login')
                     }
                 });
-            }else{
+            } else {
                 req.flash("error", `user is not exists`)
                 res.status(400).redirect('/login')
             }
@@ -77,13 +77,34 @@ exports.getDashboardPage = async (req, res) => {
     const course = await Course.find({
         user: req.session.userıd
     });
-    // console.log(courseCategory[0]._id);
-    // console.log(course);
+    const users = await User.find()
+
 
     res.render('dashboard', {
         page_name: "dashboard",
         user,
         courseCategory,
-        course
+        course,
+        users
     })
+}
+
+exports.getUserDelete = async (req, res) => {
+    try {
+
+        await User.findByIdAndRemove(req.params._id)
+        await Course.deleteMany({
+            user: req.params._id
+        })
+
+
+
+        res.status(200).redirect('/users/dashboard');
+
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
 }
