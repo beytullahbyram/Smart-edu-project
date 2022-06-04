@@ -32,7 +32,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/smart-edu-db' }) //oturumu kayıt altına aldı// mongoose de session olusturuldu
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://User-db:uIFAPsX0Xfc8gEXV@cluster0.bbamebs.mongodb.net/?retryWrites=true&w=majority' }) //oturumu kayıt altına aldı// mongoose de session olusturuldu
   }))
 app.use(flash());
 app.use((req,res,next)=>{
