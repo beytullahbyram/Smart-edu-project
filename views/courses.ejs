@@ -40,6 +40,9 @@
 								<div class="course-desc">
 									<p><%=courses[i].desctription%></p>
 								</div>
+								<%if(flashMessages) {%>
+								<%= flashMessages.error %>
+								<%}%>
 							</div>
 							<div class="course-meta-bot">
 								<ul>

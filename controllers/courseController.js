@@ -25,7 +25,7 @@ exports.createCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
     try {
         const categorySlug = req.query.categories
-        const query=req.query.search
+        const query = req.query.search
 
         const category = Category.findOne({
             slug: categorySlug
@@ -37,24 +37,30 @@ exports.getAllCourses = async (req, res) => {
                 category: category._id
             }
         }
-        
-        if(query){
-            filter={name:query}
+
+        if (query) {
+            filter = {
+                name: query
+            }
         }
 
-        if(!query && !categorySlug) {
+        if (!query && !categorySlug) {
             filter.name = "",
-            filter.category = null
-          }
+                filter.category = null
+        }
 
-          const courses = await Course.find({
-            $or:[
-                {name: { $regex: '.*' + filter.name + '.*', $options: 'i'}},
+        const courses = await Course.find({
+            $or: [{
+                    name: {
+                        $regex: '.*' + filter.name + '.*',
+                        $options: 'i'
+                    }
+                },
                 //{category: filter.category}
 
-              ]
-          }).sort('-createdAt').populate('user');
-        
+            ]
+        }).sort('-createdAt').populate('user');
+
         const categories = await Category.find();
         res.status(200).render('courses', {
             courses,
@@ -75,7 +81,7 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourse = async (req, res) => {
     try {
-        const user=await User.findById(req.session.userıd)
+        const user = await User.findById(req.session.userıd)
         const course = await Course.findOne({
             slug: req.params.slug
         }).populate('user') //user modelindeki bilgileri aldık
@@ -96,14 +102,15 @@ exports.getCourse = async (req, res) => {
     }
 }
 
-
 exports.getEnroll = async (req, res) => {
     try {
         const user = await User.findById(req.session.userıd)
-        await user.courses.push({_id: req.body.course_id}) //userın kurslar alanına yeni bir kurs ekleniyor. req ile ejsdeki kurs idyi alarak.
+        await user.courses.push({
+            _id: req.body.course_id
+        }) //userın kurslar alanına yeni bir kurs ekleniyor. req ile ejsdeki kurs idyi alarak.
         await user.save() //buralarda await yazmamızın sebebi bu işlemlerin sıralı bir şekilde olmasını istediğimiz için.
-       
-     res.status(200).redirect('/users/dashboard')
+
+        res.status(200).redirect('/users/dashboard')
 
     } catch (error) {
         res.status(400).json({
@@ -116,9 +123,11 @@ exports.getEnroll = async (req, res) => {
 exports.getRelease = async (req, res) => {
     try {
         const user = await User.findById(req.session.userıd)
-        await user.courses.pull({_id: req.body.course_id}) //userın kurslar alanına yeni bir kurs ekleniyor. req ile ejsdeki kurs idyi alarak.
-        await user.save() 
-       
+        await user.courses.pull({
+            _id: req.body.course_id
+        }) //userın kurslar alanına yeni bir kurs ekleniyor. req ile ejsdeki kurs idyi alarak.
+        await user.save()
+
         res.status(200).redirect('/users/dashboard')
 
     } catch (error) {
@@ -128,3 +137,41 @@ exports.getRelease = async (req, res) => {
         })
     }
 }
+
+exports.getDelete = async (req, res) => {
+    try {
+
+        const course = await Course.findOneAndRemove({
+            slug: req.params.slug
+        })
+
+        req.flash("error", `${course.name} has been removed successfully`);
+
+        res.status(200).redirect('/users/dashboard');
+
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
+};
+
+
+
+exports.getUpdate = async (req, res) => {
+    try {
+        const course = await Course.findOne({slug:req.params.slug});
+        course.name = req.body.name;
+        course.desctription = req.body.desctription;
+        course.category = req.body.category;
+        course.save();
+        res.status(200).redirect('/users/dashboard');
+
+    } catch (error) {
+        res.status(400).json({
+            status: 'fail',
+            error,
+        });
+    }
+};
