@@ -12,15 +12,13 @@ const categoryRoute=require('./routes/categoryRoute');
 const userRoute=require('./routes/userRoute');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 5000;
 
-//db bağlantısı
-mongoose.connect('mongodb://localhost/smart-edu-db').then(()=>{
-    console.log('baglantı yapıldı');
+mongoose.connect('mongodb+srv://User-db:uIFAPsX0Xfc8gEXV@cluster0.bbamebs.mongodb.net/?retryWrites=true&w=majority').then(()=>{
+    console.log('Connect');
 })
 
 
-//temlate-şablon engine
 app.set("view engine", "ejs")
 
  
