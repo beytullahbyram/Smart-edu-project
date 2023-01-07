@@ -38,5 +38,3 @@ node app.js
 -Admins can delete or edit anyone but themselves. They can also add or delete categories
 ---
 
-###### The work continues to be developed.
-###### I did this work via [patika](https://www.patika.dev/tr) I learned to use many  packages in the study and  gained a lot of new information on the back-end side.
